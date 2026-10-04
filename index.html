@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Salah Rings — Fill your rings, every day</title>
+<meta name="description" content="Salah Rings turns your five daily prayers into three rings you close, the way your watch closes activity rings. Qurʾān, qadāʾ, dhikr, qibla and a masjid that lives on your home screen. Free on Google Play.">
+<meta name="theme-color" content="#05070d">
+<meta property="og:title" content="Salah Rings — Fill your rings, every day">
+<meta property="og:description" content="Your five daily prayers, as three rings you close. Free on Google Play.">
+<meta property="og:image" content="assets/icon.png">
+<link rel="icon" href="assets/icon.png">
+<link rel="preload" href="assets/google_sans_flex.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="style.css">
+<script>/* if the scripts cannot run (file://, blocked), still show the page */setTimeout(function(){var d=document;if(!d.documentElement.classList.contains("ready")){d.documentElement.classList.add("ready");[].forEach.call(d.querySelectorAll(".reveal"),function(n){n.classList.add("in")})}},4500)</script>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="mark" viewBox="-120 -120 240 240"><mask id="bite"><rect x="-120" y="-120" width="240" height="240" fill="#fff"/><circle cx="46" cy="-40" r="66" fill="#000"/></mask><g mask="url(#bite)"><path fill-rule="evenodd" fill="#3DDC97" d="M100 0A100 100 0 1 0 -100 0A100 100 0 1 0 100 0ZM82 0A82 82 0 1 1 -82 0A82 82 0 1 1 82 0Z"/><path fill-rule="evenodd" fill="#fff" d="M70 0A70 70 0 1 0 -70 0A70 70 0 1 0 70 0ZM52 0A52 52 0 1 1 -52 0A52 52 0 1 1 52 0Z"/><path fill-rule="evenodd" fill="#fff" d="M40 0A40 40 0 1 0 -40 0A40 40 0 1 0 40 0ZM22 0A22 22 0 1 1 -22 0A22 22 0 1 1 22 0Z"/></g></symbol>
+  <pattern id="lattice" width="100" height="100" patternUnits="userSpaceOnUse"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="22" y="22" width="56" height="56"/><rect x="22" y="22" width="56" height="56" transform="rotate(45 50 50)"/><circle cx="50" cy="50" r="13"/><path d="M0 50H22M78 50H100M50 0V22M50 78V100"/></g></pattern>
+</defs></svg>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="wash w1"></div><div class="wash w2"></div>
+<div class="grain"></div>
+
+<header class="nav" id="nav">
+  <a class="brandlink" href="#top" aria-label="Salah Rings home"><svg><use href="#mark" width="100%" height="100%"/></svg><span>Salah Rings</span></a>
+  <nav class="navlinks"><a href="#rings">Rings</a><a href="#phone">App</a><a href="#mushaf">Qurʾān</a><a href="#widget">Widget</a></nav>
+  <a class="pill sm" href="https://play.google.com/store/apps/details?id=com.salahrings.app" rel="noopener">Get it</a>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section id="hero">
+    <div class="hero-copy">
+      <p class="eyebrow rise" style="--d:.05s"><i class="dot"></i>Now on Google Play</p>
+      <h1 class="giant rise" style="--d:.15s"><span>Fill your rings.</span><span class="grad">Every day.</span></h1>
+      <p class="lead rise" style="--d:.3s">Salah Rings turns your five daily prayers into three rings you close — the way your watch closes activity rings.</p>
+      <div class="cta-row rise" style="--d:.42s">
+        <a class="btn primary" href="https://play.google.com/store/apps/details?id=com.salahrings.app" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.6v18.8c0 .5.5.8.9.5l16-9.4c.4-.2.4-.8 0-1L4.9 2.1C4.5 1.8 4 2.1 4 2.6z" fill="currentColor"/></svg>Get it on Google Play</a>
+        <a class="btn ghost" href="#rings">See how it works</a>
+      </div>
+      <p class="fine rise" style="--d:.52s">Free to download · Android &amp; Wear OS</p>
+    </div>
+    <div class="scrollhint"><span></span></div>
+  </section>
+
+  <!-- ============ RINGS (pinned, 3D) ============ -->
+  <section id="rings" class="pin" style="--h:460vh">
+    <div class="sticky">
+      <div class="ring-readout" id="readout"><b id="rN">0</b><span>/5</span><small>prayers</small></div>
+      <div class="ring-legend" id="legend">
+        <div><i style="--c:#3DDC97"></i>Completion<b id="lc">0%</b></div>
+        <div><i style="--c:#E6C067"></i>Quality<b id="lq">0%</b></div>
+        <div><i style="--c:#B388FF"></i>Extras<b id="le">0%</b></div>
+      </div>
+      <div class="steps" id="ringSteps">
+        <div class="step"><h2 class="big">Five prayers.</h2><p>The oldest daily habit there is.</p></div>
+        <div class="step"><h2 class="big">Three rings.</h2><p>One logo, three habits — and a day you can see.</p></div>
+        <div class="step"><h2 class="big">Fill them in.</h2><p><b>Completion</b> fills as you pray each of the day’s prayers. <b>Quality</b> fills more for prayer in jamāʿah, on time. <b>Extras</b> fills with dhikr, Qurʾān and the sunnah.</p></div>
+        <div class="step"><h2 class="big">Close them all.</h2><p>Mashallah. Then do it again tomorrow.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PHONE (pinned, 3D) ============ -->
+  <section id="phone" class="pin" style="--h:620vh">
+    <div class="sticky">
+      <div class="caps" id="phoneCaps">
+        <div class="cap"><span class="eyebrow">Today</span><h2 class="big">Your day,<br>at a glance.</h2><p>The next prayer, the countdown, and your three rings — the moment you open the app.</p></div>
+        <div class="cap"><span class="eyebrow">Plan</span><h2 class="big">Plan the day<br>around prayer.</h2><p>Prayer times, adhkar and habits on one timeline, with a week strip to look ahead.</p></div>
+        <div class="cap"><span class="eyebrow">Qadāʾ</span><h2 class="big">Make up<br>what you owe.</h2><p>Missed one? Log it, and clear it when you pray it. Nothing gets written off.</p></div>
+        <div class="cap"><span class="eyebrow">Dhikr</span><h2 class="big">Count your<br>tasbīḥ.</h2><p>Tap to count, with a ring that fills to thirty-three and morning &amp; evening adhkar.</p></div>
+        <div class="cap"><span class="eyebrow">Progress</span><h2 class="big">See your<br>consistency.</h2><p>A calendar that fills with green, week by week, and a streak you won’t want to break.</p></div>
+      </div>
+      <div class="dots" id="phoneDots"><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+  </section>
+
+  <!-- ============ MUSHAF (pinned, DOM 3D book) ============ -->
+  <section id="mushaf" class="pin solid" style="--h:440vh">
+    <div class="sticky">
+      <div class="desk" id="desk"></div>
+      <div class="vig"></div>
+      <div class="mtitle" id="mTitle"><span class="eyebrow">The Qurʾān</span><h2 class="big">Open it like<br>a book.</h2></div>
+      <div class="stage">
+        <div class="spread" id="spread">
+          <div class="block" id="block"></div>
+          <div class="page" id="page"><img id="pageImg" src="assets/mushaf_reader.jpg" alt="The muṣḥaf page in Salah Rings" draggable="false"></div>
+          <div class="cover" id="cover">
+            <div class="face front"><img src="assets/cover.webp" alt="" draggable="false"></div>
+            <div class="face back"><img src="assets/inside.webp" alt="" draggable="false"></div>
+            <div class="shade"></div>
+          </div>
+        </div>
+      </div>
+      <div class="mcopy" id="mCopy">
+        <span class="eyebrow">Muṣḥaf</span>
+        <h2 class="big">Read it the way<br>you hold it.</h2>
+        <ul class="chips">
+          <li>Madani or IndoPak script</li><li>Tap an āyah to select it</li><li>Hold for its translation</li><li>Follows the recitation</li><li>Word by word &amp; tajwīd <b>Plus</b></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MASJID WIDGET ============ -->
+  <section id="widget" class="pin solid" style="--h:300vh">
+    <div class="sticky wsticky">
+      <div class="wcopy" id="wCopy">
+        <span class="eyebrow">Home-screen widget</span>
+        <h2 class="big">A masjid that lives<br>on your home screen.</h2>
+        <ol class="wsteps" id="wSteps">
+          <li><b>The sky follows the prayer times.</b> From the stars before Fajr to the violet of Maghrib.</li>
+          <li><b>A window lights as each prayer is prayed.</b> Pray all five and the dome glows gold.</li>
+          <li><b>Every perfect day lays another day of building.</b> A streak adds lanterns, lamps on the minarets, a garden of palms and a golden crescent.</li>
+        </ol>
+        <p class="fine">Twelve great masjids to build, one prayer at a time.</p>
+      </div>
+      <div class="devicewrap" id="wDevice">
+        <div class="device"><div class="screen"><video id="wVideo" src="assets/masjid.mp4" poster="assets/masjid_poster.jpg" muted loop playsinline preload="none"></video></div><i class="cam"></i></div>
+        <div class="reflect"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WATCH ============ -->
+  <section id="watch" class="solid">
+    <div class="wrap two">
+      <div class="reveal">
+        <span class="eyebrow">Wear OS</span>
+        <h2 class="big">And on<br>your wrist.</h2>
+        <p class="lead">Your rings, the next prayer and a tap to log it — without reaching for your phone.</p>
+      </div>
+      <div class="watchbox reveal" style="--d:.1s">
+        <div class="watch"><div class="crown"></div>
+          <svg viewBox="-110 -110 220 220" class="wrings" id="wRings">
+            <g fill="none" stroke-linecap="round" stroke-width="15">
+              <circle r="92" stroke="#3DDC97" stroke-opacity=".16"/><circle r="92" stroke="#3DDC97" class="arc" data-v=".86" style="--len:578"/>
+              <circle r="70" stroke="#E6C067" stroke-opacity=".16"/><circle r="70" stroke="#E6C067" class="arc" data-v=".7" style="--len:440"/>
+              <circle r="48" stroke="#B388FF" stroke-opacity=".16"/><circle r="48" stroke="#B388FF" class="arc" data-v=".5" style="--len:302"/>
+            </g>
+          </svg>
+          <div class="wface"><b>Asr</b><span>in 2h 59m</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BENTO ============ -->
+  <section id="more" class="solid">
+    <div class="wrap">
+      <div class="reveal center"><span class="eyebrow">Everything else</span><h2 class="big">Made for<br>the whole day.</h2></div>
+      <div class="bento">
+        <article class="tile t-khatm reveal tilt">
+          <span class="eyebrow">Khatm</span><h3>604 pages. One at a time.</h3><p>A map of the whole muṣḥaf that fills as you read.</p>
+          <div class="khatm" id="khatm" aria-hidden="true"></div>
+        </article>
+        <article class="tile t-qibla reveal tilt" style="--d:.06s"><img src="assets/qibla_day.jpg" alt="Qibla compass" loading="lazy"><div class="cp"><span class="eyebrow">Qibla</span><h3>Find the direction.</h3></div></article>
+        <article class="tile t-dhikr reveal tilt" style="--d:.12s"><img src="assets/dhikr_day.jpg" alt="Dhikr counter" loading="lazy"><div class="cp"><span class="eyebrow">Dhikr</span><h3>A tasbīḥ in your pocket.</h3></div></article>
+        <article class="tile t-hisn reveal tilt" style="--d:.06s"><span class="eyebrow">Duʿāʾ</span><h3>Ḥiṣn al-Muslim, by topic.</h3><p>The fortress of the Muslim — its supplications for every moment, searchable and always at hand.</p></article>
+        <article class="tile t-themes reveal tilt" style="--d:.12s"><span class="eyebrow">Look</span><h3>Night. Sepia. Day.</h3>
+          <div class="themes"><img src="assets/today_N.jpg" alt="Night theme" loading="lazy"><img src="assets/today_D.jpg" alt="Day theme" loading="lazy"></div></article>
+        <article class="tile t-priv reveal tilt" style="--d:.18s"><span class="eyebrow">Private</span><h3>No ads.<br>No sign-up.<br>No tracking.</h3><p>It opens and it works. Your prayers stay on your phone.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section id="get" class="solid">
+    <div class="orbit" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="wrap center ctaend">
+      <svg class="bigmark reveal" aria-hidden="true"><use href="#mark" width="100%" height="100%"/></svg>
+      <h2 class="giant reveal" style="--d:.08s"><span>Fill your rings,</span><span class="grad">every day.</span></h2>
+      <div class="cta-row reveal" style="--d:.16s"><a class="btn primary lg" href="https://play.google.com/store/apps/details?id=com.salahrings.app" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.6v18.8c0 .5.5.8.9.5l16-9.4c.4-.2.4-.8 0-1L4.9 2.1C4.5 1.8 4 2.1 4 2.6z" fill="currentColor"/></svg>Get it on Google Play</a></div>
+      <p class="fine reveal" style="--d:.22s">Free to download · Android &amp; Wear OS</p>
+    </div>
+    <footer class="foot"><span><svg><use href="#mark" width="100%" height="100%"/></svg>Salah Rings</span><span>© 2026 Salah Rings</span></footer>
+  </section>
+</main>
+
+<noscript><style>.rise,.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<script type="module" src="main.js"></script>
+</body>
+</html>
