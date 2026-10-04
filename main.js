@@ -200,9 +200,16 @@ const phone = new THREE.Group(); scene.add(phone);
   phone.visible = false;
 }
 const loader = new THREE.TextureLoader();
-const texReady = hasGL ? Promise.all(SCREENS.map((n, i) => new Promise((res) => {
-  loader.load(`assets/${n}.jpg`, (t) => { t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = renderer.capabilities.getMaxAnisotropy(); screenTex[i] = t; res(); }, undefined, () => res());
-}))) : Promise.resolve();
+// until a screen has arrived (or if it never does) the phone shows deep navy, never black
+const placeholder = new THREE.DataTexture(new Uint8Array([11, 17, 32, 255]), 1, 1); placeholder.colorSpace = THREE.SRGBColorSpace; placeholder.needsUpdate = true;
+SCREENS.forEach((_, i) => { screenTex[i] = placeholder; });
+function loadScreen(i, tries = 0) {
+  return new Promise((res) => {
+    loader.load(`assets/${SCREENS[i]}.jpg`, (t) => { t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = renderer.capabilities.getMaxAnisotropy(); screenTex[i] = t; res(); },
+      undefined, () => { if (tries < 3) setTimeout(() => loadScreen(i, tries + 1).then(res), 700 * (tries + 1)); else res(); });
+  });
+}
+const texReady = hasGL ? Promise.all(SCREENS.map((_, i) => loadScreen(i))) : Promise.resolve();
 
 /* ---------------------------------------------------------------- scroll + pointer */
 let S = scrollY, T0 = 0, readyAt = -1;
